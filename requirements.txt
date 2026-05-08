@@ -1,15 +1,19 @@
 # Neural-GC Extended dependencies
-# PyTorch: install separately according to your CUDA version
-# https://pytorch.org/get-started/locally/
 #
-# CUDA 11.8 (used in development):
-#   pip install torch==2.0.1+cu118 --index-url https://download.pytorch.org/whl/cu118
+# 1. PyTorch는 CUDA 버전에 맞게 별도 설치:
+#    CUDA 11.8:
+#      pip install torch==2.0.1+cu118 --index-url https://download.pytorch.org/whl/cu118
+#    CUDA 12.x:
+#      pip install torch==2.0.1+cu121 --index-url https://download.pytorch.org/whl/cu121
+#    CPU only:
+#      pip install torch==2.0.1
 #
-# CPU only:
-#   pip install torch==2.0.1
+# 2. 나머지 패키지:
+#    pip install -r requirements.txt
 
 numpy>=1.24
 scipy>=1.10
 matplotlib>=3.7
 seaborn>=0.12
 pandas>=2.0
+h5py>=3.0
