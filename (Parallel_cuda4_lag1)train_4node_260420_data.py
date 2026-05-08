@@ -11,18 +11,18 @@ from models.cmlp import cMLP, train_model_ista
 # ============================================================
 # 0. 설정
 # ============================================================
-USE_DEVICE = "cuda:6"
+USE_DEVICE = "cuda:4"
 
-h5_path = "simulated/260420_data/three_nodes/signal.h5"
+h5_path = "simulated/260420_data/four_nodes/signal.h5"
 
-binary_save_path   = "results/3node_lag2_lambda_sweep_binary_scores.npy"
-strength_save_path = "results/3node_lag2_lambda_sweep_strength_scores.npy"
-lambda_save_path   = "results/3node_lag2_lambdas.npy"
+binary_save_path   = "results/4node_lag1_lambda_sweep_binary_scores.npy"
+strength_save_path = "results/4node_lag1_lambda_sweep_strength_scores.npy"
+lambda_save_path   = "results/4node_lag1_lambdas.npy"
 
 test_start  = 1704
 test_end    = 2000
 
-lag         = 2
+lag         = 1
 hidden      = [100]
 lr          = 0.01
 max_iter    = 1500
@@ -114,8 +114,8 @@ def worker_fn(worker_id, sim_start_idx, sim_end_idx, X_test_np, lambdas, device_
                     flush=True
                 )
 
-    np.save(f"results/worker/3node_lag2_worker{worker_id}_binary.npy",   results_binary)
-    np.save(f"results/worker/3node_lag2_worker{worker_id}_strength.npy", results_strength)
+    np.save(f"results/worker/4node_lag1_worker{worker_id}_binary.npy",   results_binary)
+    np.save(f"results/worker/4node_lag1_worker{worker_id}_strength.npy", results_strength)
     print(f"[Worker {worker_id}] Done. {(time.time()-start_time)/60:.2f}min", flush=True)
 
 
@@ -175,8 +175,8 @@ if __name__ == "__main__":
     all_strength = np.zeros((num_lambdas, num_sims, p_dim, p_dim), dtype=np.float32)
 
     for wid, (s, e) in enumerate(ranges):
-        all_binary[:, s:e]   = np.load(f"results/worker/3node_lag2_worker{wid}_binary.npy")
-        all_strength[:, s:e] = np.load(f"results/worker/3node_lag2_worker{wid}_strength.npy")
+        all_binary[:, s:e]   = np.load(f"results/worker/4node_lag1_worker{wid}_binary.npy")
+        all_strength[:, s:e] = np.load(f"results/worker/4node_lag1_worker{wid}_strength.npy")
 
     np.save(binary_save_path,   all_binary)
     np.save(strength_save_path, all_strength)

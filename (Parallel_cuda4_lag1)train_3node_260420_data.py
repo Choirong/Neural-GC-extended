@@ -114,8 +114,8 @@ def worker_fn(worker_id, sim_start_idx, sim_end_idx, X_test_np, lambdas, device_
                     flush=True
                 )
 
-    np.save(f"results/worker{worker_id}_binary.npy",   results_binary)
-    np.save(f"results/worker{worker_id}_strength.npy", results_strength)
+    np.save(f"results/worker/3node_lag1_worker{worker_id}_binary.npy",   results_binary)
+    np.save(f"results/worker/3node_lag1_worker{worker_id}_strength.npy", results_strength)
     print(f"[Worker {worker_id}] Done. {(time.time()-start_time)/60:.2f}min", flush=True)
 
 
@@ -137,6 +137,7 @@ if __name__ == "__main__":
     print(f"N_WORKERS: {N_WORKERS}")
 
     os.makedirs("results", exist_ok=True)
+    os.makedirs("results/worker", exist_ok=True)
     np.save(lambda_save_path, lambdas)
 
     num_sims = X_test.shape[0]
@@ -174,8 +175,8 @@ if __name__ == "__main__":
     all_strength = np.zeros((num_lambdas, num_sims, p_dim, p_dim), dtype=np.float32)
 
     for wid, (s, e) in enumerate(ranges):
-        all_binary[:, s:e]   = np.load(f"results/worker{wid}_binary.npy")
-        all_strength[:, s:e] = np.load(f"results/worker{wid}_strength.npy")
+        all_binary[:, s:e]   = np.load(f"results/worker/3node_lag1_worker{wid}_binary.npy")
+        all_strength[:, s:e] = np.load(f"results/worker/3node_lag1_worker{wid}_strength.npy")
 
     np.save(binary_save_path,   all_binary)
     np.save(strength_save_path, all_strength)
